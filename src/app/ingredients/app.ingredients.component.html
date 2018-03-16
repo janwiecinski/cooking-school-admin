@@ -1,0 +1,42 @@
+<div class="animated fadeIn">
+<h3>Ingredients</h3>
+ 
+<p>
+    <button (click)="openDialog()" class="btn btn-primary btn-lg">Add ingredient</button>
+</p>
+
+<table class="table" mdSort (mdSortChange)="getSortedData($event)">
+    <tr>
+        <th class="col-md-2" md-sort-header="Id">
+            Id
+        </th>
+        <th class="col-md-4" md-sort-header="Name">
+            Name
+        </th>
+        <th class="col-md-2">
+            Image
+        </th>
+        <th class="col-md-4">
+        </th>
+    </tr>
+    <tbody>
+        <tr *ngFor="let ingredient of pagedIngredients;">
+            <td>{{ingredient.Id}}</td>
+            <td>{{ingredient.Name | uppercase}}</td>
+            <td><img *ngIf="ingredient.ImageId" class="ingredientThumbnailImage" src="{{getImageUrl(ingredient.ImageId)}}"></td>
+            <td>
+                <button class="btn btn-success" (click)="openEditDialog(ingredient.Id);">SELECT</button>
+                <button (click)="deleteIngredient(ingredient); $event.stopPropagation()" class="btn btn-danger">DELETE</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+    <mat-paginator #paginator
+    [length]="length" 
+    [pageSize]="pageSize" 
+    [pageSizeOptions]="pageSizeOptions" 
+    (page)="pageEvent = $event; onPaginateChange($event)">
+    </mat-paginator>
+
+

@@ -1,0 +1,72 @@
+
+<div class="animated fadeIn">
+<h3>Recipes List</h3>
+<p>
+        <button (click)="openDialog()" class="btn btn-primary btn-lg">Add RECIPE</button>
+</p>
+<mat-table #table [dataSource]="dataSource" matSort  novalidate>
+    <ng-container matColumnDef="Id" >
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="col-md-1"> Id </mat-header-cell>
+                 <mat-cell *matCellDef="let recipe" > {{recipe.Id}} </mat-cell>
+        </ng-container>
+            
+    <ng-container matColumnDef="Title"  >
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="col-md-3"> Title </mat-header-cell>
+            <mat-cell *matCellDef="let recipe"  >
+                    <mat-form-field id="formFieldTitle" >
+                            <textarea  class="areaTitle" name="Title"  matInput  [(ngModel)]="recipe.Title" ></textarea>
+                    </mat-form-field>
+            </mat-cell>
+    </ng-container>
+      
+    <ng-container matColumnDef="Description" >
+        <mat-header-cell *matHeaderCellDef mat-sort-header  > Description </mat-header-cell>
+            <mat-cell *matCellDef="let recipe"  >
+                    <mat-form-field id="formFieldDescription" class="col-md-12" >
+                            <textarea class="areaDescription" (keyup)="saveRecipe(recipe.Description);" matTextareaAutosize  name="Description"  matInput  [(ngModel)]="recipe.Description" ></textarea>
+                    </mat-form-field>
+            </mat-cell>
+      </ng-container>
+    <ng-container matColumnDef="Actions">
+        <mat-header-cell *matHeaderCellDef > Options </mat-header-cell>
+        <mat-cell *matCellDef="let recipe">
+            <button (click)="saveRecipe(recipe);"  class="btn btn-success" >SAVE</button>
+            <button  (click)="deleteRecipe(recipe.Id);" class="btn btn-danger">DELETE</button>
+        </mat-cell>
+    </ng-container>
+
+          <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+     
+    </mat-table>
+
+    <mat-paginator #paginator 
+                    [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 20]">
+     </mat-paginator>
+  
+
+</div>
+
+
+
+<!-- <table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+    </tr>
+     <tbody >
+        <tr *ngFor="let recipe of recipes;">
+            <td>{{recipe.Id}}</td>
+            <td>{{recipe.Title | uppercase}}</td>
+            <td>{{recipe.Description}}</td>
+        </tr>
+    </tbody> 
+</table> -->

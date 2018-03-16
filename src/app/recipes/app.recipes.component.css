@@ -1,0 +1,22 @@
+.mat-column-Id {
+    flex: 0 0 5%;
+  }
+.mat-column-Title{
+    flex: 0 0 20%;
+    
+}
+.mat-column-Description {
+    flex: 0 0 50%;
+  }
+  .mat-column-Actions{
+    flex: 0 0 20%;
+  }
+  /* #formFieldTitle{
+    width:100%;
+    height: auto;
+    padding:5%;
+  } */
+  /* .areaTitle{
+    height: auto;
+    
+  } */

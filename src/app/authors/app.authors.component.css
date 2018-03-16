@@ -1,0 +1,19 @@
+
+  .mat-column-Id {
+    flex: 0 0 5%;
+  }
+  .mat-column-Name {
+    flex: 0 0 15%;
+  }
+  .mat-column-Surname {
+    flex: 0 0 15%;
+  }
+  .mat-column-Age {
+    flex: 0 0 5%;
+  }
+  .mat-column-City {
+    flex: 0 0 15%;
+  }
+  .mat-column-Job {
+    flex: 0 0 15%;
+  }

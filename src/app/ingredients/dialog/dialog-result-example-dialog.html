@@ -1,0 +1,23 @@
+
+<div mat-dialog-content>
+  <legend>INGREDIENT FORM</legend>
+  <form class="form-inline" [formGroup]="ingredientForm" novalidate>
+    <div class="form-group">
+      <div class="col-xs-10">
+        <mat-form-field>
+          <input matInput class="form-control" placeholder="Enter Ingredient name"  formControlName="name" name="data" [(ngModel)]="data.name">
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+ 
+</div>
+<div id="uploader"></div>
+
+<div mat-dialog-actions style="padding-left:30%;">
+  <button class="btn btn-success" [disabled]="!ingredientForm.valid" [mat-dialog-close]="data">
+    <span *ngIf="data.dialogType == 'edit'">Update</span>
+    <span *ngIf="data.dialogType == 'add'">Add</span>
+  </button>
+  <button class="btn btn-danger" (click)="onNoClick()">CANCEL</button>
+</div>
