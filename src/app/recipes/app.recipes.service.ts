@@ -5,7 +5,6 @@ import { Headers, Http, Response } from '@angular/http';
 import { environment } from '../../environments/environment.prod';
 import 'rxjs/add/operator/toPromise';
 import { HttpClient } from '@angular/common/http';
-import { promise } from 'protractor/node_modules/@types/selenium-webdriver';
 import { ResponseType } from '@angular/http/src/enums';
 @Injectable()
 export class RecipesService{
