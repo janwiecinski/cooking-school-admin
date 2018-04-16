@@ -8,6 +8,7 @@ import "rxjs/Rx";
 import 'rxjs/add/operator/toPromise';
 import { Observable } from "rxjs/Observable";
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 
 
 
@@ -15,24 +16,22 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 export class AuthorsService {
 
     private authorsUrl = environment.apiUrl +'/authors';
+    private localUrl = "http://localhost/cookingschool/api/authors";
     id: object;
     theAuthor: Author;
     constructor(private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService) {  }
     
     getAuthors(): Promise<Array<Author>> {
-        
+        this.spinnerService.show()
         return this.http
             .get(this.authorsUrl)
             .toPromise()
             .then((response) => {
-              
+                this.spinnerService.hide()
                 return response as Author[];
-               
             }
         )
             .catch(this.handleError);
-            
-
     }
     getAuthor(id: number): Promise<Author> {
        
@@ -49,36 +48,28 @@ export class AuthorsService {
         age = age.trim();
         city = city.trim();
         job = job.trim();
-        this.spinnerService.show();
         return  this.http.post(this.authorsUrl, 
              {name, surname, age, city, job})
              .toPromise()
-             .then(res  =>{this.spinnerService.hide();
-                this.id = res
-             })
+             .then(res  =>res)
              .catch(this.handleError);
     }
 
     delete(id: number): Promise<any> {
-        this.spinnerService.show();
         const url = this.authorsUrl + '/' + id;
         return  this.http.delete(url) 
             .toPromise()
             .then(response =>{
                 response;
-                this.spinnerService.hide();
             } ) 
             .catch(this.handleError);
     }
 
     update(data): Promise<void> {
         const url = this.authorsUrl;
-        this.spinnerService.show();
         return this.http.put(url, data)
             .toPromise()
-            .then(response =>{
-                this.spinnerService.hide();
-                this.getAuthors()} )
+            .then(response => response)
             .catch(this.handleError);
             
     }

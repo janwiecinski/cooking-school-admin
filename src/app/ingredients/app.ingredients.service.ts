@@ -7,20 +7,25 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import 'rxjs/add/operator/toPromise';
 import { Host, SkipSelf } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 @Injectable()
 export class IngredientsService {
     private ingredientsUrl = environment.apiUrl + '/ingredients';
+    private localUrl = "http://localhost/cookingschool/api/ingredients";
+
     private ingredient: Ingredient;
-    constructor(private http: HttpClient) { 
+    constructor(private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService) { 
     }
 
     getIngredients(): Promise<Array<Ingredient>> {
+        this.spinnerService.show();
         return this.http
             .get(this.ingredientsUrl)
             .toPromise()
             .then((response) => {
+                this.spinnerService.hide();
                 return response as Ingredient[];
             })
             .catch(this.handleError);
@@ -35,11 +40,11 @@ export class IngredientsService {
             .catch(this.handleError);
     }
 
-    create(name: string): Promise<number> {
+    create(name: string): Promise<Ingredient> {
         return this.http.post(this.ingredientsUrl,
             { name })
             .toPromise()
-            .then(res => res as number)
+            .then(res => res as Ingredient)
             .catch(this.handleError);
     }
 
@@ -51,11 +56,11 @@ export class IngredientsService {
             .catch(this.handleError);
     }
 
-    update(ingredient: Ingredient): Promise<void> {
+    update(ingredient: Ingredient): Promise<Ingredient> {
         const url = this.ingredientsUrl;
         return this.http.put(url, ingredient)
             .toPromise()
-            .then(response => {this.getIngredients()} )
+            .then(response => response)
             .catch(this.handleError);
 
     }

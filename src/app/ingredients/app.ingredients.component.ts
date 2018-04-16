@@ -11,8 +11,8 @@ import { MatTableModule, MAT_DIALOG_DATA, PageEvent } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { environment } from './../../environments/environment.prod';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { FineUploader } from 'fine-uploader';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 
 @Component({
 
@@ -36,13 +36,13 @@ export class AppIngredientsComponent {
   pageEvent: PageEvent;
   sortedData;
 
-  constructor(private ingredientsService: IngredientsService, public dialog: MatDialog, public toastr: ToastsManager, vcr: ViewContainerRef, private spinnerService: Ng4LoadingSpinnerService) {
+  constructor(private ingredientsService: IngredientsService, public dialog: MatDialog, public toastr: ToastsManager, vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
 
   }
 
   ngOnInit(): void {
-
+    
     this.ingredientsService.getIngredients().then(ingredients => {
       this.ingredients = ingredients;
       this.length = this.ingredients.length;
@@ -85,9 +85,9 @@ export class AppIngredientsComponent {
 
     name = name.trim();
     this.ingredientsService.create(name)
-      .then(id => {
+      .then(res => {
 
-        this.ingredients.push(new Ingredient(id, name, null));
+        this.ingredients.push(res);
         this.toastr.success('Your Ingredient Has Been Added', null,
           {
             toastLife: 10000,
@@ -117,12 +117,12 @@ export class AppIngredientsComponent {
   }
   saveIngredient(id, newName) {
 
-    var ingredient = new Ingredient(id, newName, null);
+    var ingredient = new Ingredient(id, newName);
     this.ingredientsService.update(ingredient)
-      .then(() => {
+      .then((response) => {
+       
         this.ngOnInit();
-
-        this.showSuccess('Your ingredient has been saved');
+        this.showSuccess("You have Updated Ingredient " + response.Name);
       });
 
   }

@@ -7,7 +7,7 @@ import { MatSort, MatPaginator, MatTableDataSource, MatDialogConfig, MatDialog }
 import { AppAuthorDialog } from "./dialog/app.author.dialog";
 import { ToastsManager } from "ng2-toastr/ng2-toastr";
 import { Headers, Http, Response } from '@angular/http';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { resetFakeAsyncZone } from '@angular/core/testing';
 
 
 @Component({
@@ -24,15 +24,14 @@ export class AppAuthorsComponent implements OnInit {
   author: Author;
   id: number = null;
 
-constructor( private authorsService : AuthorsService,  public dialog: MatDialog, public toastr: ToastsManager, vcr: ViewContainerRef, private spinnerService: Ng4LoadingSpinnerService ){
+constructor( private authorsService : AuthorsService,  public dialog: MatDialog, public toastr: ToastsManager, vcr: ViewContainerRef){
   this.toastr.setRootViewContainerRef(vcr);
 }
 
 ngOnInit(): void {
-   this.authorsService.getAuthors().then(response => {
+    this.authorsService.getAuthors().then(response => {
     this.dataAuthor = response;
     this.setPaginator(this.dataAuthor);
-   
   });
 }
 
@@ -46,8 +45,8 @@ setPaginator(data) {
 addAuthor(name, surname, age, job, city):void {
   
   this.authorsService.create(name, surname, age, city, job)
-    .then(id => {
-      this.dataAuthor.push(new Author (id, name, surname, age, city, job)); 
+    .then(res => {
+      this.dataAuthor.push(res); 
       this.ngOnInit();
       this.showSuccess('Your author ' + name +' '+ surname +' Has Been Added');
     });
@@ -69,14 +68,10 @@ deleteAuthor(author): void {
       this.showError("Internal server error. Try again later.");
     }
   });
-  
- 
-  
-  
 }
 
 saveAuthor(id, name, surname, age, job, city): void{
- 
+ debugger;
   var newAuthor = {id, name, surname, age, job, city};
   this.authorsService.update(newAuthor)
   .then(()=>{this.ngOnInit();

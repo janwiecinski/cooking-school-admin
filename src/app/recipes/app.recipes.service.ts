@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-
 import { Recipe } from './app.recipe.model';
 import { Headers, Http, Response } from '@angular/http';
 import { environment } from '../../environments/environment.prod';
 import 'rxjs/add/operator/toPromise';
 import { HttpClient } from '@angular/common/http';
 import { ResponseType } from '@angular/http/src/enums';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+
+
 @Injectable()
 export class RecipesService{
     recipe: Recipe;
-    constructor (private http: HttpClient){}
+    constructor (private http: HttpClient, private spinnerService: Ng4LoadingSpinnerService){}
 
     getRecipes(): Promise<Array<Recipe>>{
-
+        this.spinnerService.show();
         return this.http
         .get(environment.apiUrl + '/recipes')
         .toPromise()
         .then((response) =>{
+            this.spinnerService.hide();
             return response as Recipe[];
         })
         .catch(this.handleError);
@@ -43,7 +46,7 @@ export class RecipesService{
         debugger;
         return this.http.post(environment.apiUrl +'/recipes', data)
                 .toPromise()
-                .then(response => this.getRecipes())
+                .then(response =>response)
                 .catch(this.handleError);
     }
 

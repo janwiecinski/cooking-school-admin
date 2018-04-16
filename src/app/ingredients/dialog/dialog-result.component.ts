@@ -41,10 +41,9 @@ export class DialogResultExampleDialog {
                      let uploader = new FineUploader({ 
                         element: document.getElementById("uploader"),
                         template: "qq-template-gallery",
-                        customHeaders: {Authorization :`Bearer ` + this.msalService.access_token},
                         request: {
-                        endpoint: environment.apiUrl + `/ingredients/${this.data.id}/images`}
-                        
+                        customHeaders: {Authorization :`Bearer ` + this.msalService.access_token},
+                        endpoint: environment.apiUrl + `/ingredients/${this.data.id}/images`},
                    });
                    
                 }
