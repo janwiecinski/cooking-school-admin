@@ -22,7 +22,7 @@ export class IngredientsService {
     getIngredients(): Promise<Array<Ingredient>> {
         this.spinnerService.show();
         return this.http
-            .get(this.ingredientsUrl)
+            .get(this.localUrl)
             .toPromise()
             .then((response) => {
                 this.spinnerService.hide();
