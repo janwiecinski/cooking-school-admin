@@ -14,8 +14,8 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a routerLink="" routerLinkActive="active">MANAGEMENT PANEL</a></li>
-                <li><a routerLink="/authors" routerLinkActive="active">AUTHORS</a></li>
-                <li><a routerLink="/recipes" routerLinkActive="active">RECIPES</a></li>
+                <li><a routerLink="/authors" [hidden]="!isOnline()" routerLinkActive="active">AUTHORS</a></li>
+                <li><a routerLink="/recipes" [hidden]="!isOnline()" routerLinkActive="active">RECIPES</a></li>
                 <li><a routerLink="/ingredients" [hidden]="!isOnline()"  routerLinkActive="active">INGREDIENTS</a></li>
                 <li><a routerLink="/policy" routerLinkActive="active">PRIVACY POLICY</a></li>
             </ul>
